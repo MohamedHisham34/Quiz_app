@@ -8,10 +8,8 @@ import 'package:quizapp/Button.dart';
 import 'question.dart';
 
 void main() => runApp(Quizzler());
-//testo Commit
-//t2
-//test Commit
 
+// Test First Push
 class Quizzler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
