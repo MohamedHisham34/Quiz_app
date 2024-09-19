@@ -5,6 +5,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:quizapp/Button.dart';
+import 'package:quizapp/questionbrain.dart';
 import 'question.dart';
 
 void main() => runApp(Quizzler());
@@ -36,19 +37,13 @@ class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
   bool isSelected = false;
   //test
-  int questionsNumber = 0;
-  List<Question> questionbank = [
-    Question(q: 'What is The Number Of dogs', a: true),
-    Question(q: 'What is The Number Of dogss', a: false),
-    Question(q: 'How many Dogs are in the room', a: false),
-    Question(q: 'How Many', a: false),
-    Question(q: 'How Much Does it Cost', a: true),
-    Question(q: 'Yoyo', a: false),
-  ];
+
   List<bool> TotalAnswers = [];
 
   @override
   Widget build(BuildContext context) {
+    Questionbrain questionbrain = Questionbrain();
+
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -80,7 +75,7 @@ class _QuizPageState extends State<QuizPage> {
                 padding: EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(
-                    questionbank[questionsNumber].questionText,
+                    questionbrain.getQuestionText(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25.0,
@@ -107,34 +102,18 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   onPressed: () {
                     //Correct Answer Check
-                    bool correctanswer =
-                        questionbank[questionsNumber].questionAnswer;
+                    bool correctanswer = questionbrain.getQuestionAnswer();
 
                     if (correctanswer == true) {
                       print('User Got It Right');
                       TotalAnswers.add(true);
-                      print(TotalAnswers);
                     } else {
                       print('User Got It Wrong');
                       TotalAnswers.add(false);
-                      print(TotalAnswers);
                     }
 
                     setState(() {
-                      int ListLength = questionbank.length - 1;
-                      if (questionsNumber == ListLength) {
-                        questionsNumber = 0;
-                        print('First Question');
-                      } else {
-                        print(ListLength);
-                        questionsNumber++;
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          ),
-                        );
-                      }
+                      questionbrain.NextQuestion();
                     });
                   },
                 ),
@@ -154,8 +133,7 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                   ),
                   onPressed: () {
-                    bool correctanswer =
-                        questionbank[questionsNumber].questionAnswer;
+                    bool correctanswer = questionbrain.getQuestionAnswer();
 
                     if (correctanswer == true) {
                       print('User Got It Right');
@@ -163,20 +141,7 @@ class _QuizPageState extends State<QuizPage> {
                       print('User Got It Wrong');
                     }
                     setState(() {
-                      int ListLength = questionbank.length - 1;
-                      if (questionsNumber == ListLength) {
-                        questionsNumber = 0;
-                        print('First Question');
-                      } else {
-                        print(ListLength);
-                        questionsNumber++;
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                        );
-                      }
+                      questionbrain.NextQuestion();
                     });
                   },
                 ),
