@@ -1,6 +1,6 @@
 # quizapp
 
-A new Flutter project.
+It's An App That Provide True Or False Question 
 
 ## Getting Started
 
